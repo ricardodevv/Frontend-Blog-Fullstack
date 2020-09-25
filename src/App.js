@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react' 
 import People from './components/People'
 import Services from './components/Services'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ people, setPeople ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
+  const [ errToggle, setErr ] = useState([])
 
   const hook = () => { 
     Services
@@ -27,7 +29,13 @@ const App = () => {
     const add = () => { 
       Services
       .create(nameObj)
-      .then(returned => setPeople(people.concat(returned))) 
+      .then(returned => setPeople(people.concat(returned)))
+      .then(result => setErr('New phone added'))
+      .catch(error => { 
+        console.log(error.response.data.error)
+        const showErr = error.response.data.error
+        setErr(showErr)
+      }) 
       setNewName('')
       setNewPhone('')
     }
@@ -43,6 +51,9 @@ const App = () => {
         Services 
           .update(idToReplace, nameObj)
           .then(returned => setPeople(updatedBook.concat(returned)))
+          .catch(error => {
+            console.log(error)
+          })
           .then(hook)
       }
     } else {
@@ -60,7 +71,7 @@ const App = () => {
   } 
 
   const delPhone = (id) => {
-    const url = `http://localhost:3001/peps/${id}`
+    const url = `http://localhost:3001/api/peps/${id}`
     const toDelete = people.find(el => el.id === id) 
     const newList = people.filter(list => list.id !== id)
     const result = window.confirm(`Are you sure you want to delete ${toDelete.name}`) 
@@ -76,7 +87,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      
+      <Notification message={errToggle}/>
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleNewName} />
