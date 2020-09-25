@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:3001/api/peps'
+const url = '/api/peps'
 
 const getAll = () => {
   return axios.get(url).then(response => response.data)
