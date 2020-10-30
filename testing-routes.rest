@@ -2,8 +2,7 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
   {
-    "title": "PS4",
     "author": "Ricardo Q",
-    "url": "www.pentakill.com",
-    "likes": 100
+    "url": "www.NINTENDOU.com",
+    "likes": 1000
   }
