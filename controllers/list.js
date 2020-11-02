@@ -6,9 +6,17 @@ listRouter.get('/', async (request, response) => {
     response.json(blogs)
 })
 
-listRouter.get('/info', async (request, response) => {
-  response.write('something')
-  response.end()
+listRouter.get('/:id', async (request, response, next) => {
+  try{
+    const blog = await Blog.findById(request.params.id)
+    if (blog) {
+      response.json(blog)
+    } else {
+      response.status(404).end()
+    }
+  } catch(exception) {
+    next(exception)
+  }
 })
 
 listRouter.post('/', async (request, response, next) => {
@@ -23,8 +31,8 @@ listRouter.post('/', async (request, response, next) => {
 
   try {
     const savedBlog = await blog.save()
-    const formated = await savedBlog.toJSON() 
-    response.json(formated)
+    //const formated = await savedBlog.toJSON() 
+    response.json(savedBlog)
   } catch(exception) {
     next(exception)
   }
@@ -37,6 +45,15 @@ listRouter.post('/', async (request, response, next) => {
     })
   .catch(error => next(error))
   */
+})
+
+listRouter.delete('/:id', async (request, response, next) => {
+  try{
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 module.exports = listRouter
