@@ -6,20 +6,16 @@ listRouter.get('/', async (request, response) => {
     response.json(blogs)
 })
 
-listRouter.get('/:id', async (request, response, next) => {
-  try{
-    const blog = await Blog.findById(request.params.id)
-    if (blog) {
-      response.json(blog)
-    } else {
-      response.status(404).end()
-    }
-  } catch(exception) {
-    next(exception)
+listRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    response.json(blog)
+  } else {
+    response.status(404).end()
   }
 })
 
-listRouter.post('/', async (request, response, next) => {
+listRouter.post('/', async (request, response) => {
   const body = request.body
     
   const blog = new Blog({
@@ -29,13 +25,8 @@ listRouter.post('/', async (request, response, next) => {
     likes: body.likes
   })
 
-  try {
-    const savedBlog = await blog.save()
-    //const formated = await savedBlog.toJSON() 
-    response.json(savedBlog)
-  } catch(exception) {
-    next(exception)
-  }
+  const savedBlog = await blog.save()
+  response.json(savedBlog)
 
   /*blog
     .save()
@@ -47,13 +38,22 @@ listRouter.post('/', async (request, response, next) => {
   */
 })
 
-listRouter.delete('/:id', async (request, response, next) => {
-  try{
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
-  } catch (exception) {
-    next(exception)
-  }
+listRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
+
+listRouter.put('/:id', async (request, response) => {
+  const body = request.body
+
+  const blog = {
+    title: body.title,
+    likes: body.likes 
+  }
+
+  const upd = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true})
+  response.json(upd)
+})  
+
 
 module.exports = listRouter

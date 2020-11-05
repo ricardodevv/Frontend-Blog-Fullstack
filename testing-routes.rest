@@ -1,8 +1,8 @@
-POST http://localhost:3003/api/blogs
+PUT http://localhost:3003/api/blogs/5f7c86f0e10f061ad4be557d
 Content-Type: application/json
 
   {
-    "title": "dueee",
+    "title": "dog",
     "author": "Ricardo Q",
     "url": "www.NINTENDOU.com",
     "likes": 1000

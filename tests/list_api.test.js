@@ -8,12 +8,11 @@ const Blog = require('../models/blog-list')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
+   
+  const blogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 test('list are returned as json', async () => {
@@ -102,6 +101,22 @@ test('a blog can be deleted', async () => {
   const titles = blogsAtEnd.map(r => r.title)
 
   expect(titles).not.toContain(blogToDelete.title)
+})
+
+test('a blog can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updatedBlog = {
+    title: 'one',
+    likes: 50
+  }
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 })
 
 afterAll(() => {
