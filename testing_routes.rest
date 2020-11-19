@@ -1,0 +1,8 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpDIiwiaWQiOiI1ZmIzZDExZTBmMTQ0YzJiZWM3ZTU0YmIiLCJpYXQiOjE2MDU3OTU1NTV9.jQzClp9TeMLuuH4M0piKJssa8JJ5ebn0wqP0E-iXgFM
+
+  {
+    "title": "Bardo ADCARRY",
+    "likes": 4000
+  }
