@@ -13,8 +13,6 @@ const unknownEndpoint = (request, response) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  logger.error(error.message)
-
   if (error.name === 'CastError') {
     return response.status(400).send({ 
       error: 'malformatted id' 
@@ -28,12 +26,24 @@ const errorHandler = (error, request, response, next) => {
       error:'invalid token'
     })
   }
+  logger.error(error.message)
 
   next(error)
+}
+
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    request.token = authorization.substring(7)
+  } else {
+    request.token = null 
+  }
+  next()
 }
 
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  tokenExtractor
 }
