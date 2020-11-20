@@ -22,6 +22,7 @@ listRouter.get('/:id', async (request, response) => {
 listRouter.post('/', async (request, response) => {
   const body = request.body
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  console.log(decodedToken)
   if (!request.token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
@@ -41,8 +42,17 @@ listRouter.post('/', async (request, response) => {
 })
 
 listRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  const blog = await Blog.findById(request.params.id)
+  console.log(blog)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (blog.user.toString() === decodedToken.id.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } else {
+    response.send({
+      error: 'error'
+    })
+  }
 })
 
 listRouter.put('/:id', async (request, response) => {
