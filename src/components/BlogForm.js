@@ -1,7 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Blog from './Blog'
 
-const BlogForm = ({ addBlog, newTitle, handleTitle, newAuthor, handleAuthor, newContent, handleContent, blogs }) => {
+const BlogForm = ({ createBlog, blogs }) => {
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newContent, setNewContent] = useState('')
+
+  const handleTitle = (event) => {
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthor = (event) => {
+    setNewAuthor(event.target.vale)
+  }
+
+  const handleContent = (event) => {
+    setNewContent(event.target.value)
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog({
+      title: newTitle,
+      author: newAuthor,
+      content: newContent,
+    })
+    
+    setNewTitle('')
+    setNewAuthor('')
+    setNewContent('')
+  }
+
+  return (
   <form onSubmit={addBlog}>
       <div>
         <div>
@@ -39,6 +69,7 @@ const BlogForm = ({ addBlog, newTitle, handleTitle, newAuthor, handleAuthor, new
         )}
       </div>  
     </form>
+  )
 }
 
 export default BlogForm

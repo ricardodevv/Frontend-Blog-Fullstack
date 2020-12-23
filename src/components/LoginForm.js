@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
+import loginService from '../services/login'
 
 const LoginForm = ({
-  handleSubmit,
-  handleUsernameChange,
-  handlePasswordChange,
-  username,
-  password
+  handleLogin,
 }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
+
+  const logIn = async (event) => {
+    event.preventDefault()
+    const user = await loginService.login({
+      username, password,
+    })
+
+    window.localStorage.setItem(
+      'loggedBlogappUser', JSON.stringify(user)
+    )
+
+    handleLogin(user)
+    setUsername('')
+    setPassword('')
+  }
+
   return (
     <div>
       <h2>Login</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={logIn}>
           <div>
             username
               <input
