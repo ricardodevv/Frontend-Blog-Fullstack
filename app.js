@@ -18,7 +18,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
   })
   .catch((error) => {
     logger.error('error connecting to MongoDB:', error.message)
-  })
+  }) 
 
 app.use(express.json())
 app.use(express.static('build'))
