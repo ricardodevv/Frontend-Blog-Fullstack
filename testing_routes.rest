@@ -1,9 +1,6 @@
-POST http://localhost:3003/api/users
+DELETE http://localhost:3003/api/blogs/5fb2995f89bcf416fcb54420
 Content-Type: application/json
-//Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpDIiwiaWQiOiI1ZmIzZDExZTBmMTQ0YzJiZWM3ZTU0YmIiLCJpYXQiOjE2MDU5MDI4ODl9.VipYOvF8fd-JUVpUJ3BPe169FthnfJt2M__SjJtDr5w
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpDIiwiaWQiOiI1ZmIzZDExZTBmMTQ0YzJiZWM3ZTU0YmIiLCJpYXQiOjE2MDU5MDI4ODl9.VipYOvF8fd-JUVpUJ3BPe169FthnfJt2M__SjJtDr5w
 
   {
-    "username": "ricardoandres122",
-    "name": "Ricardo Andrés",
-    "password": "Andree98.,"
   }

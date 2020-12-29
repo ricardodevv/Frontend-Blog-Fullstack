@@ -31,6 +31,7 @@ listRouter.post('/', async (request, response) => {
   const blog = new Blog({
     title: body.title,
     author: body.author,
+    content: body.content,
     url: body.url,
     likes: body.likes,
     user: user._id
@@ -45,8 +46,9 @@ listRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   console.log(blog)
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (blog.user.toString() === decodedToken.id.toString()) {
+  if (blog.user.toString() === decodedToken.id.toString()) {  
     await Blog.findByIdAndRemove(request.params.id)
+    console.log(decodedToken)
     response.status(204).end()
   } else {
     response.send({
@@ -60,6 +62,8 @@ listRouter.put('/:id', async (request, response) => {
 
   const blog = {
     title: body.title,
+    author: body.author,
+    content: body.content,
     likes: body.likes 
   }
 

@@ -7,6 +7,7 @@ const blogSchema = new mongoose.Schema({
     },
     date: Date,
     author: String,
+    content: String,
     url: String,
     likes: Number,
     user: {
