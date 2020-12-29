@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Blog from './Blog'
 
 const BlogForm = ({ createBlog, blogs }) => {
   const [newTitle, setNewTitle] = useState('')
@@ -11,7 +10,7 @@ const BlogForm = ({ createBlog, blogs }) => {
   }
 
   const handleAuthor = (event) => {
-    setNewAuthor(event.target.vale)
+    setNewAuthor(event.target.value)
   }
 
   const handleContent = (event) => {
@@ -24,6 +23,7 @@ const BlogForm = ({ createBlog, blogs }) => {
       title: newTitle,
       author: newAuthor,
       content: newContent,
+      likes: 0
     })
     
     setNewTitle('')
@@ -62,12 +62,6 @@ const BlogForm = ({ createBlog, blogs }) => {
         </div>
         <button type="submit">Add</button>
       </div>
-      
-      <div>
-        {blogs.map(blog => 
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>  
     </form>
   )
 }

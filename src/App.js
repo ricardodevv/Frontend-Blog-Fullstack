@@ -5,11 +5,13 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglabe'
 import BlogForm from './components/BlogForm'
 import './App.css'
+import Blog from './components/Blog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -28,8 +30,7 @@ const App = () => {
     }
   }, [])
 
-  // Handlers 
-
+  // ----- Handlers ------ 
   const handleLogin = (user) => {
     try {
       blogService.setToken(user.token)
@@ -50,10 +51,25 @@ const App = () => {
     setBlogs(blogs.concat(returned))
   }
 
-  console.log(user)
+  // ----- Update Blog -----
+  const updateBlog = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    const toUpdate = { ...blog, likes: blog.likes + 1 }
+    const updateo = blogService.update(id, toUpdate)
+    const returned = await updateo
+    setBlogs(blogs.map(blog => blog.id !== id ? toUpdate : returned))
+  }
 
+  // ----- Delete Blog -----
+  const delBlog = async (id) => {
+    const blogToDelete = blogService.deleteBlog(id)
+    const deleted = await blogToDelete 
+    return deleted
+  }
+
+  // ----- Forms -------
   const loginForm = () => (
-    <Togglable buttonLabel='login'>
+    <Togglable buttonLabel="login">
       <LoginForm 
         handleLogin ={handleLogin}
         />
@@ -66,15 +82,13 @@ const App = () => {
     <Togglable buttonLabel="new note" ref={blogFormRef}>
       <BlogForm
         createBlog={addBlog}
-        blogs={blogs}
       />   
     </Togglable>
-  )  
+  )
 
   const logOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')
   }
-    
 
   return (
     <div className="App">
@@ -91,6 +105,19 @@ const App = () => {
           </p>
           {blogForm()}
         </div> 
+      }
+    
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          {showAll ? 'hide' : 'show'}
+        </button> 
+      </div>
+      
+      {showAll === true ? 
+        blogs.map(blog => 
+          <Blog blog={blog} updateBlog={updateBlog} delBlog={delBlog} ></Blog>
+        ) 
+        : null
       }
     </div>
   );
