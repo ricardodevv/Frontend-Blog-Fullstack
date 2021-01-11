@@ -4,7 +4,7 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const showDetails = { display: visible ? '' : 'none' }
-  const hideDetails = { display: visible ? 'none' : '' } 
+  const hideDetails = { display: visible ? 'none' : '' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -13,7 +13,7 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  
+
   const like = (id) => {
     updateBlog(id)
   }
@@ -24,13 +24,13 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideDetails}> 
-        <b>Title: </b> {blog.title} <b>Likes: </b> {blog.likes} 
+      <div style={hideDetails} className='blog-preview'>
+        <b>Title: </b> {blog.title} <b>Likes: </b> {blog.likes}
         <hr></hr>
       </div>
-      <div style={showDetails}>
+      <div style={showDetails} className='blog-full'>
         <b>Title: </b> {blog.title}
-        <br></br> 
+        <br></br>
         <b>Author: </b> {blog.author}
         <br></br>
         <b>Content: </b> {blog.content}
@@ -42,7 +42,7 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
       <button onClick={() => setVisible(!visible)}>
         { visible ? 'Hide' : 'More' }
       </button>
-      <button onClick={() => deletBlog(blog.id)}>Delete</button>   
+      <button onClick={() => deletBlog(blog.id)}>Delete</button>
     </div>
   )
 }

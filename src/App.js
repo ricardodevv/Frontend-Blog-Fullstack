@@ -1,5 +1,6 @@
+/* eslint-disable linebreak-style */
 import React, { useState, useEffect, useRef } from 'react'
-import blogService from './services/blogs' 
+import blogService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglabe'
@@ -17,7 +18,7 @@ const App = () => {
     const getBlogs = async () => {
       const blogs = await blogService.getAll()
       setBlogs(blogs)
-      }
+    }
     getBlogs()
   }, [])
 
@@ -30,7 +31,7 @@ const App = () => {
     }
   }, [])
 
-  // ----- Handlers ------ 
+  // ----- Handlers ------
   const handleLogin = (user) => {
     try {
       blogService.setToken(user.token)
@@ -63,26 +64,26 @@ const App = () => {
   // ----- Delete Blog -----
   const delBlog = async (id) => {
     const blogToDelete = blogService.deleteBlog(id)
-    const deleted = await blogToDelete 
+    const deleted = await blogToDelete
     return deleted
   }
 
   // ----- Forms -------
   const loginForm = () => (
-    <Togglable buttonLabel="login">
-      <LoginForm 
+    <Togglable buttonLabel='login'>
+      <LoginForm
         handleLogin ={handleLogin}
-        />
+      />
     </Togglable>
   )
 
   const blogFormRef = useRef()
 
   const blogForm = () => (
-    <Togglable buttonLabel="new note" ref={blogFormRef}>
+    <Togglable buttonLabel='new blog' ref={blogFormRef}>
       <BlogForm
         createBlog={addBlog}
-      />   
+      />
     </Togglable>
   )
 
@@ -96,7 +97,7 @@ const App = () => {
 
       <Notification message={errorMessage}/>
 
-      {user === null ? 
+      {user === null ?
         loginForm() :
         <div>
           <p>
@@ -104,23 +105,24 @@ const App = () => {
             <button onClick={(() => logOut())}>Log out</button>
           </p>
           {blogForm()}
-        </div> 
+        </div>
       }
-    
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           {showAll ? 'hide' : 'show'}
-        </button> 
+        </button>
       </div>
-      
-      {showAll === true ? 
-        blogs.map(blog => 
+
+      {showAll === true ?
+        blogs.map(blog =>
+          // eslint-disable-next-line react/jsx-key
           <Blog blog={blog} updateBlog={updateBlog} delBlog={delBlog} ></Blog>
-        ) 
+        )
         : null
       }
     </div>
-  );
+  )
 }
 
 export default App

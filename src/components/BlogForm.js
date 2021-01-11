@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const BlogForm = ({ createBlog, blogs }) => {
+const BlogForm = ({ createBlog }) => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newContent, setNewContent] = useState('')
@@ -25,40 +25,40 @@ const BlogForm = ({ createBlog, blogs }) => {
       content: newContent,
       likes: 0
     })
-    
+
     setNewTitle('')
     setNewAuthor('')
     setNewContent('')
   }
 
   return (
-  <form onSubmit={addBlog}>
+    <form onSubmit={addBlog}>
       <div>
         <div>
-          Title:  
-            <input
+          Title:
+          <input
             type="text"
             value={newTitle}
             onChange={handleTitle}
-            />
+          />
         </div>
-          
+
         <div>
           Author:
-            <input
+          <input
             type="text"
             value={newAuthor}
             onChange={handleAuthor}
-            />
+          />
         </div>
-          
+
         <div>
           Content:
-            <input
+          <input
             type="text"
             value={newContent}
             onChange={handleContent}
-            />
+          />
         </div>
         <button type="submit">Add</button>
       </div>
