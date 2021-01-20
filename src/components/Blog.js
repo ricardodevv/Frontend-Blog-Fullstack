@@ -24,11 +24,11 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideDetails} className='blog-preview'>
+      <div style={hideDetails} className="blog-preview">
         <b>Title: </b> {blog.title} <b>Likes: </b> {blog.likes}
         <hr></hr>
       </div>
-      <div style={showDetails} className='blog-full'>
+      <div style={showDetails} className="blog-full">
         <b>Title: </b> {blog.title}
         <br></br>
         <b>Author: </b> {blog.author}
