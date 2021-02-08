@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const { findById, findByIdAndRemove } = require('../models/users')
 const usersRouter = require('express').Router()
 const User = require('../models/users')
 
