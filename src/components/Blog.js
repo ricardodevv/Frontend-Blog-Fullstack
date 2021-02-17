@@ -27,6 +27,11 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
       <div style={hideDetails} className="blog-preview">
         <b>Title: </b> {blog.title} <b>Likes: </b> {blog.likes}
         <hr></hr>
+        <button id="likeButton" onClick={() => like(blog.id, blog.title, blog.author, blog.content, blog.likes)}>Like</button>
+        <br></br>
+        <button onClick={() => setVisible(!visible)}>
+          { visible ? 'Hide' : 'More' }
+        </button>
       </div>
       <div style={showDetails} className="blog-full">
         <b>Title: </b> {blog.title}
@@ -38,11 +43,11 @@ const Blog = ({ blog, updateBlog, delBlog }) => {
         <b>Likes: </b> {blog.likes}
         <button onClick={() => like(blog.id, blog.title, blog.author, blog.content, blog.likes)}>Like</button>
         <br></br>
+        <button onClick={() => setVisible(!visible)}>
+          { visible ? 'Hide' : 'More' }
+        </button>
+        <button onClick={() => deletBlog(blog.id)}>Delete</button>
       </div>
-      <button onClick={() => setVisible(!visible)}>
-        { visible ? 'Hide' : 'More' }
-      </button>
-      <button onClick={() => deletBlog(blog.id)}>Delete</button>
     </div>
   )
 }

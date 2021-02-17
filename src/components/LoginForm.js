@@ -1,41 +1,17 @@
-/* eslint-disable linebreak-style */
-import React, { useState } from 'react'
-import loginService from '../services/login'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
+  username,
+  password,
+  handleUsernameChange,
+  handlePasswordChange,
   handleLogin,
 }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
-  const logIn = async (event) => {
-    event.preventDefault()
-    const user = await loginService.login({
-      username, password,
-    })
-
-    window.localStorage.setItem(
-      'loggedBlogappUser', JSON.stringify(user)
-    )
-
-    handleLogin(user)
-    setUsername('')
-    setPassword('')
-  }
-
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={logIn}>
+      <form onSubmit={handleLogin}>
         <div>
           username
           <input

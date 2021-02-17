@@ -1,25 +1,30 @@
 /* eslint-disable linebreak-style */
 import React, { useState, useEffect, useRef } from 'react'
-import blogService from './services/blogs'
+import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
-import Togglable from './components/Togglabe'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglabe'
+import blogService from './services/blogs'
+import loginService from './services/login'
 import './App.css'
-import Blog from './components/Blog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [showAll, setShowAll] = useState(false)
+  const [showAll, setShowAll] = useState(true)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
-    const getBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-    getBlogs()
+    blogService
+      .getAll()
+      .then(initialBlogs => {
+        setBlogs(initialBlogs)
+      })
   }, [])
 
   useEffect(() => {
@@ -32,10 +37,21 @@ const App = () => {
   }, [])
 
   // ----- Handlers ------
-  const handleLogin = (user) => {
+  const handleLogin = async (event) => {
+    event.preventDefault()
     try {
+      const user = await loginService.login({
+        username, password,
+      })
+
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+
       blogService.setToken(user.token)
       setUser(user)
+      setUsername('')
+      setPassword('')
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -43,41 +59,42 @@ const App = () => {
       }, 5000)
     }
   }
-
   // ----- Add blog function ------
-  const addBlog = async (blogObject) => {
+  const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    const blog = blogService.createBlog(blogObject)
-    const returned = await blog
-    setBlogs(blogs.concat(returned))
+    blogService
+      .createBlog(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
   }
 
   // ----- Update Blog -----
   const updateBlog = async (id) => {
     const blog = blogs.find(blog => blog.id === id)
     const toUpdate = { ...blog, likes: blog.likes + 1 }
-    const updateo = blogService.update(id, toUpdate)
-    const returned = await updateo
-    setBlogs(blogs.map(blog => blog.id !== id ? toUpdate : returned))
+    const updateo = await blogService.update(id, toUpdate)
+    setBlogs(blogs.map(blog => blog.id !== id ? blog : updateo))
   }
 
   // ----- Delete Blog -----
   const delBlog = async (id) => {
-    const blogToDelete = blogService.deleteBlog(id)
-    const deleted = await blogToDelete
-    return deleted
+    await blogService.deleteBlog(id)
+    setBlogs(blogs.filter(blog => blog.id !== id))
   }
 
   // ----- Forms -------
   const loginForm = () => (
     <Togglable buttonLabel='login'>
       <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
         handleLogin ={handleLogin}
       />
     </Togglable>
   )
-
-  const blogFormRef = useRef()
 
   const blogForm = () => (
     <Togglable buttonLabel='new blog' ref={blogFormRef}>
@@ -94,7 +111,6 @@ const App = () => {
   return (
     <div className="App">
       <h2>Blogs</h2>
-
       <Notification message={errorMessage}/>
 
       {user === null ?
@@ -114,13 +130,18 @@ const App = () => {
         </button>
       </div>
 
-      {showAll === true ?
-        blogs.map(blog =>
-          // eslint-disable-next-line react/jsx-key
-          <Blog blog={blog} updateBlog={updateBlog} delBlog={delBlog} ></Blog>
-        )
-        : null
-      }
+      <ul>
+        {showAll === true ?
+          blogs.map((blog, i) =>
+            <Blog
+              key={i}
+              blog={blog}
+              updateBlog={updateBlog}
+              delBlog={delBlog} />
+          )
+          : ''
+        }
+      </ul>
     </div>
   )
 }

@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
@@ -22,6 +21,7 @@ const createBlog = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
+
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
@@ -36,7 +36,6 @@ const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token }
   }
-
   const request = axios.delete(`${ baseUrl }/${id}`, config)
   const response = await request
   return response.data
