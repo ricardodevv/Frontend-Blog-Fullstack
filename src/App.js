@@ -14,7 +14,6 @@ const App = () => {
       .getAll()
       .then(returnedInfo => setPeople(returnedInfo))
   }
-  
   useEffect(hook, [])
 
   const addName = (event) => {
