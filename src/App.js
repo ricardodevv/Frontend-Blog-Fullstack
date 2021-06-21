@@ -104,12 +104,6 @@ const App = () => {
     setBlogs(blogs.filter(blog => blog.id !== id))
   }
 
-  // ----- Forms -------
-  /*const loginForm = () => (
-    <Togglable buttonLabel='login'>
-    </Togglable>
-  )
-*/
   const blogForm = () => (
     <Togglable buttonLabel='new blog' ref={blogFormRef}>
       <BlogForm

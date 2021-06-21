@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, username }) => {
   const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
   const [newContent, setNewContent] = useState('')
 
+  console.log(username)
   const handleTitle = event => {
     setNewTitle(event.target.value)
-  }
-
-  const handleAuthor = event => {
-    setNewAuthor(event.target.value)
   }
 
   const handleContent = event => {
@@ -21,13 +17,12 @@ const BlogForm = ({ createBlog }) => {
     event.preventDefault()
     createBlog({
       title: newTitle,
-      author: newAuthor,
+      author: username.name,
       content: newContent,
       likes: 0
     })
 
     setNewTitle('')
-    setNewAuthor('')
     setNewContent('')
   }
 
@@ -43,16 +38,6 @@ const BlogForm = ({ createBlog }) => {
             onChange={handleTitle}
           />
         </div>
-
-        <div>
-            Author:
-          <input
-            type="text"
-            value={newAuthor}
-            onChange={handleAuthor}
-          />
-        </div>
-
         <div>
             Content:
           <input

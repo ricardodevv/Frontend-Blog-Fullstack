@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, useHistory } from 'react-router-dom'
+import './styledForm.css'
 
 const LoginForm = ({
   username,
@@ -14,31 +15,35 @@ const LoginForm = ({
 
   return (
     user === null ?
-      <div>
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-          username
-            <input
-              id="username"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </div>
-          <div>
-          password
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button id="login-button" type="submit">
-          login
-          </button>
-        </form>
-        <button onClick={() => history.push('/')}>Back to home</button>
+      <div className="login-container">
+        <div className="align-container">
+          <h2>Login</h2>
+          <form onSubmit={handleLogin}>
+            <div className="inputField">
+              <h3>Username</h3>
+              <input
+                id="username"
+                autoComplete="off"
+                value={username}
+                onChange={handleUsernameChange}
+              />
+            </div>
+            <div className="inputField">
+              <h3>Password</h3>
+              <input
+                id="password"
+                type="password"
+                autoComplete="off"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <button className="submit-button" type="submit">
+            Login
+            </button>
+          </form>
+          <button className="back-button" onClick={() => history.push('/')}>Back to home</button>
+        </div>
       </div>
       :
       <Redirect to='/' />

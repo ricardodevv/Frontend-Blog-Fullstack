@@ -28,25 +28,25 @@ const Home = ({
             <button onClick={(() => logOut())}>Log out</button>
           </p>
           {blogForm()}
+          <div>
+            <button onClick={() => setShowAll(!showAll)}>
+              {showAll ? 'hide' : 'show'}
+            </button>
+          </div>
+          <ul>
+            {showAll === true ?
+              blogs.map((blog, i) =>
+                <Blog
+                  key={i}
+                  blog={blog}
+                  updateBlog={updateBlog}
+                  delBlog={delBlog} />
+              )
+              : ''
+            }
+          </ul>
         </div>
       }
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          {showAll ? 'hide' : 'show'}
-        </button>
-      </div>
-      <ul>
-        {showAll === true ?
-          blogs.map((blog, i) =>
-            <Blog
-              key={i}
-              blog={blog}
-              updateBlog={updateBlog}
-              delBlog={delBlog} />
-          )
-          : ''
-        }
-      </ul>
     </div>
   )
 }
