@@ -1,13 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Redirect, useHistory } from 'react-router-dom'
 
-const LoginForm = ({
+const RegisterForm = ({
+  name,
   username,
   password,
+  handleNameChange,
   handleUsernameChange,
   handlePasswordChange,
-  handleLogin,
+  handleRegister,
   user
 }) => {
   let history = useHistory()
@@ -15,8 +16,16 @@ const LoginForm = ({
   return (
     user === null ?
       <div>
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
+        <h2>Sign Up</h2>
+        <form onSubmit={handleRegister}>
+          <div>
+          Name
+            <input
+              id="name"
+              value={name}
+              onChange={handleNameChange}
+            />
+          </div>
           <div>
           username
             <input
@@ -34,8 +43,8 @@ const LoginForm = ({
               onChange={handlePasswordChange}
             />
           </div>
-          <button id="login-button" type="submit">
-          login
+          <button id="register-button" type="submit">
+          Register
           </button>
         </form>
         <button onClick={() => history.push('/')}>Back to home</button>
@@ -45,12 +54,4 @@ const LoginForm = ({
   )
 }
 
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  handleUsernameChange: PropTypes.func.isRequired,
-  handlePasswordChange: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
-}
-
-export default LoginForm
+export default RegisterForm
