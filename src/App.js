@@ -65,6 +65,7 @@ const App = () => {
     }
   }
 
+  console.log(user)
   const handleRegister = async event => {
     event.preventDefault()
     try {
@@ -100,14 +101,19 @@ const App = () => {
 
   // ----- Delete Blog -----
   const delBlog = async (id) => {
-    await blogService.deleteBlog(id)
-    setBlogs(blogs.filter(blog => blog.id !== id))
+    try {
+      await blogService.deleteBlog(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    } catch (error) {
+      setErrorMessage('You are not allowed to delete this blog')
+    }
   }
 
   const blogForm = () => (
     <Togglable buttonLabel='new blog' ref={blogFormRef}>
       <BlogForm
         createBlog={addBlog}
+        user={user}
       />
     </Togglable>
   )
@@ -115,6 +121,7 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    setName('')
   }
 
   return (
